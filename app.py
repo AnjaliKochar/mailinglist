@@ -27,10 +27,10 @@ def login_required(test):
 @login_required
 def success(name):
     g.db=connect_database()
-    c=g.db.execute('select user_name,email,phoneno,profile from users')
+    c=g.db.execute('select user_name,email,phoneno,company_designation,list_role,subscribed_list,password from users')
     #c = g.db.execute('select user_id,user_name from users')
 
-    details=[dict(user_name=row[0],email=row[1],phoneno=row[2],profile=row[3]) for row in c.fetchall()]
+    details=[dict(user_name=row[0], email=row[1], phoneno=row[2], company_designation=row[3],list_role=row[4],subscribed_list=row[5],password=row[6]) for row in c.fetchall()]
     g.db.close()
     return render_template('login2.html',details=details)
     #return 'welcome %s' % name
