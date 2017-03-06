@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New submitter</title>
+</head>
+<body>
+    <section>
+        <div>
+            <form  action = "{{ url_for('detail') }}">
+                <h1 style="text-align:center">UPDATE PROFILE</h1>
+                <div style="text-align:right;width:60%">
+                    Name:
+                    <input type="text" id="name" name="nme"><br><br>
+                    Email id:
+                    <input type ="email" id="email" name="mail"><br><br>
+                    Contact number:
+                    <input type="number" id="contactnumber" name="number"><br><br>
+                    Designation:
+                    <input type="text" id="designation" name="post"><br><br>
+                    Role:
+                    <input type="text" value="Submitter" name="role"readonly><br><br>
+                    Password:
+                    <input type="password" id="password" name="pswrd"><br><br>
+                    Confirm Password:
+                    <input type="password" id="confirmpassword" name="conpswrd"><br><br>
+
+                </div>
+                <div align="center">
+                     <input type="submit" value="UPDATE" id="update">
+                </div>
+            </form>
+        </div>
+    </section>
+</body>
+</html>

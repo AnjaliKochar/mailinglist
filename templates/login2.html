@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Details</title>
+
+</head>
+<body>
+    {%for item in details%}
+    {{item.user_name}}|{{item.email}}|{{item.phoneno}}|{{item.company_designation}}|{{item.list_role}}|{{item.subscribed_list}}|{{item.password}}<br><br>
+    {%endfor%}
+</body>
+</html>
