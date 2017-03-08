@@ -8,9 +8,7 @@ app.config.from_object(__name__)
 def connect_database():
     return sqlite3.connect(app.config['DATABASE'])
 
-@app.route('/')
-def firstpage():
-    return render_template('Subscribe.html')
+
 
 @app.route('/details')
 def subdetails():
