@@ -1,9 +1,10 @@
-from flask import Flask,g,render_template,request
+from flask import Flask,g,render_template,request,flash
 import sqlite3
 
 app=Flask(__name__)
 DATABASE="mailinglist.db"
 app.config.from_object(__name__)
+app.secret_key="key"
 
 def connect_database():
     return sqlite3.connect(app.config['DATABASE'])
@@ -16,6 +17,21 @@ def firstpage():
 def admin_login():
      return render_template('adminlogin.html')
 
+@app.route('/curatoroptionsassignnew')
+def assign_newsubmitter():
+    return render_template('assignnewsubmitter.html')
+
+@app.route('/curatoroptionsupdateprofile')
+def update_profile():
+    return render_template('updateprofile.html')
+
+@app.route('/curatoroptionssendnewsletter')
+def send_newsletter():
+    return render_template('curatorsendnewsletter.html')
+
+@app.route('/submitter_suggest_link')
+def suggest_link():
+    return render_template('submitterlinksuggest.html')
 
 @app.route('/details')
 def subdetails():
@@ -52,18 +68,29 @@ def detail():
     return render_template('login2.html', details=details)
 
 
-@app.route('/curatororsub_login')
+@app.route('/curatororsub_login' ,methods=['get','post'])
 def curatororsub_login():
+
     g.db = connect_database()
     profile = request.form['cors']
     aemail = request.form['adminemail']
     apswd = request.form['adminpswd']
-    print("hi")
-    c=g.db.execute('select user_name,email,phoneno,company_designation,list_role,subscribed_list,password from users where (list_role=profile AND aemail=email AND apswd=password)')
+    detaillist=((profile,aemail,apswd))
+    c=g.db.execute('select * from users where list_role=? AND email=? AND password=?', detaillist)
     details = [dict(user_name=row[0], email=row[1], phoneno=row[2], company_designation=row[3], list_role=row[4],
-                    subscribed_list=row[5], password=row[6]) for row in c.fetchall()]
-    g.db.close()
-    return render_template('login2.html', details=details)
+                 subscribed_list=row[5], password=row[6]) for row in c.fetchall()]
+    if len(details) > 0 and profile=='Submitter':
+        g.db.close()
+        return render_template('submitteroptions.html')
+    elif len(details) > 0 and profile=='Curator':
+        g.db.close()
+        return render_template('curatoroptions.html')
+    else:
+        flash('sorry incorrect details !!')
+        g.db.close()
+        return render_template('adminlogin.html')
+
+
 
 if __name__=='__main__':
     app.run(host='127.0.0.1',port=4444,debug=True)

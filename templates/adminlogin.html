@@ -7,12 +7,12 @@
 <body>
     <section>
         <div align="center">
-            <form action="{{ url_for('curatororsub_login') }}">
+            <form action="{{url_for('curatororsub_login')}}" method="post">
                 <h1>CURATOR/SUBMITTER LOGIN</h1>
                 &nbsp;&nbsp;Profile:
-                <select style="width:174px;height:21px" >
-                    <option value="Curator" id="curator" name="cors">Curator</option>
-                    <option value="Submitter" id="submitter" name="cors">Submitter</option>
+                <select style="width:174px;height:21px"  name="cors">
+                    <option value="Curator" >Curator</option>
+                    <option value="Submitter">Submitter</option>
                 </select><br><br>
                 Email id:
                 <input type="email" name="adminemail"><br><br>

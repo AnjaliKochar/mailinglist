@@ -1,13 +1,13 @@
 import sqlite3
 import  sys
-mlist=(('John','john@lrd',233,'Developer','submitter','Developer','abc123'),
-       ('John','john@lrd',233,'Developer','submitter','SEO','abc123'),
-       ('Marry','marry@lrd',556,'Content Writer','subscriber','Content Writer','abc123'),
-       ('Cherry','cherry@lrd',356,'SEO','curator','SEO','abc123'),
-       ('Nisha','nisha@lrd',556,'DMM','submitter','DMM','abc123'),
-       ('Neha','neha@lrd',226,'UI/UX','submitter','UI/UX','abc123'),
-       ('Harry','harry@lrd',116,'Graphic Designers','subscriber','Graphic Designer','abc123'),
-       ('Om', 'om@lrd', 566, 'Database','submitter','Database','abc123'))
+mlist=(('John','john@lrd',233,'Developer','Submitter','Developer','abc123'),
+       ('John','john@lrd',233,'Developer','Submitter','SEO','abc123'),
+       ('Marry','marry@lrd',556,'Content Writer','Subscriber','Content Writer','abc123'),
+       ('Cherry','cherry@lrd',356,'SEO','Curator','SEO','abc123'),
+       ('Nisha','nisha@lrd',556,'DMM','Submitter','DMM','abc123'),
+       ('Neha','neha@lrd',226,'UI/UX','Submitter','UI/UX','abc123'),
+       ('Harry','harry@lrd',116,'Graphic Designers','Subscriber','Graphic Designer','abc123'),
+       ('Om', 'om@lrd', 566, 'Database','Submitter','Database','abc123'))
 #con=sqlite3.connect('sales.db')
 #mlist=(('johnid',233),('marryid',556))
 
