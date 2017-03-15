@@ -21,6 +21,27 @@ def admin_login():
 def assign_newsubmitter():
     return render_template('assignnewsubmitter.html')
 
+@app.route('/curatoroptionsassignnew')
+def assign_newsubmittermethod():
+    g.db = connect_database()
+
+    name = request.form['nme']
+    mail = request.form['mail']
+    phone = request.form['number']
+    post = request.form['post']
+    role = request.form['role']
+    password = request.form['pswrd']
+    conpswrd = request.form['conpswrd']
+    subslist = 'none'
+    mlistt = ((name, mail, phone, post, role, subslist, password))
+    c = g.db.execute('insert into users values(?,?,?,?,?,?,?)', mlistt)
+    c = g.db.execute('select user_name,email,phoneno,company_designation,list_role,subscribed_list,password from users')
+    g.db.commit()
+    details = [dict(user_name=row[0], email=row[1], phoneno=row[2], company_designation=row[3], list_role=row[4],
+                    subscribed_list=row[5], password=row[6]) for row in c.fetchall()]
+    g.db.close()
+    return render_template('login2.html', details=details)
+
 @app.route('/curatoroptionsupdateprofile')
 def update_profile():
     return render_template('updateprofile.html')
