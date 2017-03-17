@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New submitter</title>
+</head>
+<body>
+    {%for item in details%}
+    {{item.user_name}}|{{item.email}}|{{item.phoneno}}|{{item.company_designation}}|{{item.list_role}}|{{item.password}}<br><br>
+    {%endfor%}
+
+</body>
+</html>
