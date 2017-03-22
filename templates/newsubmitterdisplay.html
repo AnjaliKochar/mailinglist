@@ -5,9 +5,45 @@
     <title>New submitter</title>
 </head>
 <body>
-    {%for item in details%}
+    <!--{%for item in details%}
     {{item.user_name}}|{{item.email}}|{{item.phoneno}}|{{item.company_designation}}|{{item.list_role}}|{{item.password}}<br><br>
-    {%endfor%}
+    {%endfor%}-->
+    <section>
+        <div align="center" style="margin-top:10%">
+            <form action="{{url_for('updatesubmitter_curator')}}" method="post">
+                {%for item in details%}
+                    <h1>Update Details of {{item.name}} </h1><br>
+                    <input type="text" name="mail" value="{{item.email}}" hidden >{{item.email}}</input>
+                    List Role :
+                    <!--<select>
+                        <option>{{item.listrole}}</option>
+                        {% if item.listrole == 'Curator' %}
+                        <option>Submitter</option>
+
+                        {% else %}
+                        <option>Curator</option>
+                        {% endif %}
+                    </select>-->
+                    {% if item.listrole == 'Curator' %}
+                        <input type="radio" name="role" value="Subscriber">Subscriber
+                        <input type="radio" name="role" value="Submitter">Submitter
+                        <input type="radio" name="role"  value="Curator"checked>Curator
+                    {% elif item.listrole == 'Submitter'  %}
+                        <input type="radio" name="role" value="Subscriber">Subscriber
+                        <input type="radio" name="role" value="Submitter" checked>Submitter
+                        <input type="radio" name="role" value="Curator">Curator
+                    {% else %}
+                        <input type="radio" name="role" value="Subscriber" checked>Subscriber
+                        <input type="radio" name="role" value="Submitter">Submitter
+                        <input type="radio" name="role" value="Curator">Curator
+                    {% endif %}
+                {%endfor%}
+                <br><br>
+                <button type="submit">UPDATE</button>
+            </form>
+        </div>
+    </section>
+
 
 </body>
 </html>

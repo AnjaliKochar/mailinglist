@@ -19,7 +19,8 @@ def admin_login():
 
 @app.route('/curatoroptionsassignnew')
 def assign_newsubmitter():
-    return render_template('assignnewsubmitter.html')
+    return render_template('update_inputid.html')
+    #return render_template('assignnewsubmitter.html')
 
 #/curatoroptionsupdateprofile' used for submitter profile update too
 @app.route('/curatoroptionsupdateprofile')
@@ -63,7 +64,7 @@ def curatororsub_login():
 @app.route('/curatoroptionsassignnew',methods=['get','post'])
 def assign_newsubmittermethod():
     g.db = connect_database()
-
+    """
     name = request.form['nme']
     mail = request.form['mail']
     phone = request.form['number']
@@ -82,6 +83,29 @@ def assign_newsubmittermethod():
                     password=row[5]) for row in c.fetchall()]
     g.db.close()
     return render_template('newsubmitterdisplay.html', details=details)
+    """
+    mail = request.form['email']
+    c=g.db.execute('select user_name,list_role from users where email=?',(mail,))
+    details=[dict(name=row[0],listrole=row[1],email=mail) for row in c.fetchall()]
+    g.db.close()
+    return render_template('newsubmitterdisplay.html', details=details)
+
+@app.route('/updatesubmitterbycurator',methods=['get','post'])
+def updatesubmitter_curator():
+    g.db=connect_database()
+    mail = request.form['mail']
+    print(mail)
+    role = request.form['role']
+    print(role)
+    c = g.db.execute('update users set list_role=? where email=?', (role,mail,))
+    #details = [dict(listrole=row[1], email=mail) for row in c.fetchall()]
+    g.db.commit()
+    c = g.db.execute('select * from users')
+    details = [dict(user_id=row[0],user_name=row[1],email=row[2], phoneno=row[2], company_designation=row[3], list_role=row[4],
+                    password=row[5]) for row in c.fetchall()]
+    g.db.close()
+    return render_template('login2.html', details=details)
+
 
 @app.route('/curatoroptionsupdateprofile',methods=['get','post'])
 def detail():
