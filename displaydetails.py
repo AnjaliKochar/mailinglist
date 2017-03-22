@@ -1,4 +1,4 @@
-from flask import Flask,g,render_template,request,flash
+from flask import Flask,g,render_template,request,flash,session
 import sqlite3
 
 app=Flask(__name__)
@@ -20,12 +20,6 @@ def admin_login():
 @app.route('/curatoroptionsassignnew')
 def assign_newsubmitter():
     return render_template('update_inputid.html')
-    #return render_template('assignnewsubmitter.html')
-
-#/curatoroptionsupdateprofile' used for submitter profile update too
-@app.route('/curatoroptionsupdateprofile')
-def update_profile():
-    return render_template('updateprofile.html')
 
 @app.route('/curatoroptionssendnewsletter')
 def send_newsletter():
@@ -47,13 +41,15 @@ def curatororsub_login():
     detaillist=((profile,aemail,apswd))
     c=g.db.execute('select user_name from users where list_role=? AND email=? AND password=?', detaillist)
     details = [dict(user_name=row[0]) for row in c.fetchall()]
+    session['useremail'] = aemail
     if len(details) > 0 and profile=='Submitter':
         g.db.close()
         return render_template('submitteroptions.html')
     elif len(details) > 0 and profile=='Curator':
         g.db.close()
-        return render_template('curatoroptions.html')
+        return render_template('curatoroptions.html',session=session)
     else:
+        session.pop('useremail')
         flash('sorry incorrect details !!')
         g.db.close()
         return render_template('adminlogin.html')
@@ -64,27 +60,7 @@ def curatororsub_login():
 @app.route('/curatoroptionsassignnew',methods=['get','post'])
 def assign_newsubmittermethod():
     g.db = connect_database()
-    """
-    name = request.form['nme']
-    mail = request.form['mail']
-    phone = request.form['number']
-    post = request.form['post']
-    role = request.form['role']
-    password = request.form['pswrd']
-    conpswrd = request.form['conpswrd']
-
-    mlistt = ((name, mail, phone, post, role, password))
-
-    c = g.db.execute('insert into users values(?,?,?,?,?,?,?)', mlistt)
-    c = g.db.execute('select user_name,email,phoneno,company_designation,list_role,subscribed_list,password from users')
-
-    g.db.commit()
-    details = [dict(user_name=row[0], email=row[1], phoneno=row[2], company_designation=row[3], list_role=row[4],
-                    password=row[5]) for row in c.fetchall()]
-    g.db.close()
-    return render_template('newsubmitterdisplay.html', details=details)
-    """
-    mail = request.form['email']
+    mail = request.form['email'] #cannot use session because updation of another id is done
     c=g.db.execute('select user_name,list_role from users where email=?',(mail,))
     details=[dict(name=row[0],listrole=row[1],email=mail) for row in c.fetchall()]
     g.db.close()
@@ -94,11 +70,8 @@ def assign_newsubmittermethod():
 def updatesubmitter_curator():
     g.db=connect_database()
     mail = request.form['mail']
-    print(mail)
     role = request.form['role']
-    print(role)
     c = g.db.execute('update users set list_role=? where email=?', (role,mail,))
-    #details = [dict(listrole=row[1], email=mail) for row in c.fetchall()]
     g.db.commit()
     c = g.db.execute('select * from users')
     details = [dict(user_id=row[0],user_name=row[1],email=row[2], phoneno=row[2], company_designation=row[3], list_role=row[4],
@@ -110,23 +83,37 @@ def updatesubmitter_curator():
 @app.route('/curatoroptionsupdateprofile',methods=['get','post'])
 def detail():
     g.db=connect_database()
+    mail=session['useremail']
 
-    name=request.form['nme']
-    mail=request.form['mail']
-    phone=request.form['number']
-    post=request.form['post']
-    role=request.form['role']
-    password=request.form['pswrd']
-    conpswrd=request.form['conpswrd']
-    subslist='none'
-    mlistt=((name,mail,phone,post,role,subslist,password))
-    c=g.db.execute('insert into users values(?,?,?,?,?,?,?)',mlistt)
-    c=g.db.execute('select user_name,email,phoneno,company_designation,list_role,subscribed_list,password from users')
-    g.db.commit()
-    details = [dict(user_name=row[0], email=row[1], phoneno=row[2], company_designation=row[3],list_role=row[4],
-                    subscribed_list=row[5],password=row[6]) for row in c.fetchall()]
+    c=g.db.execute('Select * from users where email=?',(mail,))
+    details = [dict(user_id=row[0], user_name=row[1], email=row[2], phoneno=row[3], company_designation=row[4],
+                    list_role=row[5],
+                    password=row[6]) for row in c.fetchall()]
     g.db.close()
 
+    return render_template('updateprofile.html', details=details)
+
+
+@app.route('/curatoroptionsprofileupdateclick',methods=['get','post'])
+def curatorupdateprofile_submitclick():
+    g.db=connect_database()
+    userid=request.form['userid']
+    name=request.form['name']
+    email=request.form['email']
+    contact=request.form['contactnumber']
+    designation=request.form['designation']
+    listrole=request.form['listrole']
+    password=request.form['password']
+
+    updatelist=(name,email,contact,designation,listrole,password,userid)
+    c=g.db.execute('UPDATE users set user_name=?,email=?,phoneno=?,company_designation=?,list_role=?,password=? where user_id=?',updatelist)
+    g.db.commit()
+    c = g.db.execute('select * from users')
+    details = [dict(user_id=row[0], user_name=row[1], email=row[2], phoneno=row[2], company_designation=row[3],
+                    list_role=row[4],
+                    password=row[5]) for row in c.fetchall()]
+    g.db.close()
+    flash('RECORDS UPDATED !!')
     return render_template('login2.html', details=details)
 
 

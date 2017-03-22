@@ -7,16 +7,20 @@
 </head>
 <body>
     <section>
-        <div align="right"><a href="{{url_for('firstpage')}}">Logout</a> </div>
-        <div style="width:60%;margin-top:10%;margin-left:32%">
+        <form>
+            <div align="right"><a href="{{url_for('firstpage')}}">Logout</a> </div>
+            <div style="width:60%;margin-top:10%;margin-left:32%">
             <div style="float:left;padding:5%">
                 <a href="{{url_for('suggest_link')}}" style="color:grey"><i class="fa fa-external-link-square fa-5x " aria-hidden="true" style="margin-left:30%" ></i><br>Suggest links to the curator</a>
             </div>
             <div style="float:left;padding:5%">
-                <a href="{{url_for('update_profile')}}" style="color:grey"><i class="fa fa-pencil-square-o fa-5x" aria-hidden="true" style="margin-left:15%" ></i><br>Update profile</a>
+                <a href="{{url_for('detail')}}" style="color:grey"><i class="fa fa-pencil-square-o fa-5x" aria-hidden="true" style="margin-left:15%" ></i><br>Update profile</a>
             </div>
-        </div>
+            </div>
+        </form>
     </section>
+
+
 
 </body>
 </html>
