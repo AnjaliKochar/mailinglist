@@ -12,14 +12,14 @@
         <a href="{{ url_for('admin_login') }}" style="float:right">ADMIN</a>
 
         <div align="center" style="width:100%">
-            <form>
+            <form action="{{url_for('new_subscription')}}" method="post">
                 <h1>WELCOME TO THE WEEKLY MAILER</h1>
-                Email:<input type="email" name="emailid" ><br><br>
+                Email:<input type="email" name="emailid" id="eid"><br><br>
                 <h2>Please select the topic of your interest : </h2><br>
                 <div style="width:40%;text-align:center">
                     <div style="width:50%;float:left;text-align:left" >
                         <ul>
-                            <li> <input type="checkbox" name="developer">Developer</li><br><br>
+                            <li><input type="checkbox" name="developer">Developer</li><br><br>
                             <li><input type="checkbox" name="contentwriter" >Content Writer</li><br><br>
                             <li><input type="checkbox" name="SEO" >Search Engine Optimization</li><br><br>
                             <li><input type="checkbox" name="DMM" >Digital Marketing Manager</li><br><br>

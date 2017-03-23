@@ -1,27 +1,27 @@
 import sqlite3
 import  sys
 
-ulist=((1,'John','john@lrd',233,'Developer','Submitter','abc123'),
-       (2,'Marry','marry@lrd',556,'Content Writer','Subscriber','abc123'),
-       (3,'Cherry','cherry@lrd',356,'SEO','Curator','abc123'),
-       (4,'Nisha','nisha@lrd',556,'DMM','Submitter','abc123'),
-       (5,'Neha','neha@lrd',226,'UI/UX','Submitter','abc123'),
-       (6,'Harry','harry@lrd',116,'Graphic Designer','Subscriber','abc123'),
-       (7,'Om', 'om@lrd', 566, 'Database','Submitter','abc123'))
+ulist=(('John','john@lrd',233,'Developer','Submitter','abc123'),
+       ('Marry','marry@lrd',556,'Content Writer','Subscriber','abc123'),
+       ('Cherry','cherry@lrd',356,'SEO','Curator','abc123'),
+       ('Nisha','nisha@lrd',556,'DMM','Submitter','abc123'),
+       ('Neha','neha@lrd',226,'UI/UX','Submitter','abc123'),
+       ('Harry','harry@lrd',116,'Graphic Designer','Subscriber','abc123'),
+       ('Om', 'om@lrd', 566, 'Database','Submitter','abc123'))
 
 
-llist=((1,'Developer'),(2,'ContentWriter'),(3,'SEO'),(4,'DMM'),(5,'UIUX'),(6,'GraphicDesigner'),(7,'Database'))
+llist=('Developer','ContentWriter','SEO','DMM','UIUX','GraphicDesigner','Database')
 
 with sqlite3.connect("mailinglist.db") as connection:
     c=connection.cursor()
     c.execute('DROP TABLE IF EXISTS users')
-    c.execute("CREATE TABLE users(user_id INTEGER,user_name TEXT,email TEXT,phoneno INTEGER,"
-              "company_designation TEXT,list_role TEXT,password TEXT,PRIMARY KEY(user_id))")
-    c.executemany('insert into users values (?,?,?,?,?,?,?)',ulist)
+    c.execute("CREATE TABLE users(user_id INTEGER PRIMARY KEY AUTOINCREMENT,user_name TEXT,email TEXT,phoneno INTEGER,"
+              "company_designation TEXT,list_role TEXT,password TEXT)")
+    c.executemany('insert into users(user_name,email,phoneno,company_designation,list_role,password) values (?,?,?,?,?,?)',ulist)
 
     c.execute('DROP TABLE IF EXISTS lists')
-    c.execute("CREATE TABLE lists(list_id INTEGER,list_name TEXT,PRIMARY KEY(list_id))")
-    c.executemany('insert into lists values (?,?)',llist)
+    c.execute("CREATE TABLE lists(list_id INTEGER PRIMARY KEY AUTOINCREMENT,list_name TEXT)")
+    c.executemany('insert into lists(list_name) values (?)',llist)
 
     c.execute('DROP TABLE IF EXISTS subscriber_lists')
     c.execute("CREATE TABLE subscriber_lists(user_id INTEGER ,list_id INTEGER,"

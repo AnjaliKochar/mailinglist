@@ -29,6 +29,23 @@ def send_newsletter():
 def suggest_link():
     return render_template('submitterlinksuggest.html')
 
+@app.route('/subscription',methods=['get','postz'])
+def new_subscription():
+    g.db=connect_database()
+    subs_email=request.form['emailid']
+    developer=request.form['developer']
+    contentwriter=request.form['contentwriter']
+    SEO=request.form['SEO']
+    DMM=request.form['DMM']
+    UIUX=request.form['UI/UX']
+    GD=request.form['GD']
+    database=request.form['database']
+    listrole='Subscriber'
+    g.db.execute('Insert into users(email,list_role) values(?,?)',(subs_email,listrole,))
+    g.db.execute('Insert into lists')
+    g.db.commit()
+    g.db.close()
+    return render_template('Subscribe.html')
 
 @app.route('/curatororsub_login' ,methods=['get','post'])
 def curatororsub_login():
@@ -49,8 +66,8 @@ def curatororsub_login():
         g.db.close()
         return render_template('curatoroptions.html',session=session)
     else:
-        session.pop('useremail')
         flash('sorry incorrect details !!')
+        session.pop('useremail')
         g.db.close()
         return render_template('adminlogin.html')
 
@@ -73,11 +90,12 @@ def updatesubmitter_curator():
     role = request.form['role']
     c = g.db.execute('update users set list_role=? where email=?', (role,mail,))
     g.db.commit()
-    c = g.db.execute('select * from users')
-    details = [dict(user_id=row[0],user_name=row[1],email=row[2], phoneno=row[2], company_designation=row[3], list_role=row[4],
-                    password=row[5]) for row in c.fetchall()]
+    # c = g.db.execute('select * from users')
+    # details = [dict(user_id=row[0],user_name=row[1],email=row[2], phoneno=row[2], company_designation=row[3], list_role=row[4],
+    #                 password=row[5]) for row in c.fetchall()]
     g.db.close()
-    return render_template('login2.html', details=details)
+    flash('RECORDS UPDATED !!')
+    return render_template('curatoroptions.html')
 
 
 @app.route('/curatoroptionsupdateprofile',methods=['get','post'])
@@ -108,13 +126,13 @@ def curatorupdateprofile_submitclick():
     updatelist=(name,email,contact,designation,listrole,password,userid)
     c=g.db.execute('UPDATE users set user_name=?,email=?,phoneno=?,company_designation=?,list_role=?,password=? where user_id=?',updatelist)
     g.db.commit()
-    c = g.db.execute('select * from users')
-    details = [dict(user_id=row[0], user_name=row[1], email=row[2], phoneno=row[2], company_designation=row[3],
-                    list_role=row[4],
-                    password=row[5]) for row in c.fetchall()]
+    # c = g.db.execute('select * from users')
+    # details = [dict(user_id=row[0], user_name=row[1], email=row[2], phoneno=row[2], company_designation=row[3],
+    #                 list_role=row[4],
+    #                 password=row[5]) for row in c.fetchall()]
     g.db.close()
     flash('RECORDS UPDATED !!')
-    return render_template('login2.html', details=details)
+    return render_template('curatoroptions.html')
 
 
 @app.route('/details')

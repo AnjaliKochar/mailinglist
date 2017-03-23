@@ -6,8 +6,9 @@
 
 </head>
 <body>
-    {%for item in details%}
-    {{item.user_name}}|{{item.email}}|{{item.phoneno}}|{{item.company_designation}}|{{item.list_role}}|{{item.password}}<br><br>
-    {%endfor%}
+
+    {% for item in details %}
+        {{item.user_name}}|{{item.email}}|{{item.phoneno}}|{{item.company_designation}}|{{item.list_role}}|{{item.password}}<br><br>
+    {% endfor %}
 </body>
 </html>

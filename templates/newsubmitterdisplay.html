@@ -13,7 +13,7 @@
             <form action="{{url_for('updatesubmitter_curator')}}" method="post">
                 {%for item in details%}
                     <h1>Update Details of {{item.name}} </h1><br>
-                    <input type="text" name="mail" value="{{item.email}}" hidden >{{item.email}}</input>
+                    <input type="hidden" name="mail" value="{{item.email}}" ></input>
                     List Role :
                     <!--<select>
                         <option>{{item.listrole}}</option>
@@ -39,6 +39,7 @@
                     {% endif %}
                 {%endfor%}
                 <br><br>
+                <button type="button" onclick="history.go(-1)">Back</button>
                 <button type="submit">UPDATE</button>
             </form>
         </div>

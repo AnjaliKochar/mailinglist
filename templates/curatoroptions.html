@@ -9,6 +9,13 @@
 </head>
 <body>
     <section>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    {{message}}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <form>
             <div align="right"><a href="{{url_for('firstpage')}}">Logout</a> </div>
             <div style="width:60%;margin-top:10%;margin-left:30%">
