@@ -10,18 +10,18 @@ ulist=(('John','john@lrd',233,'Developer','Submitter','abc123'),
        ('Om', 'om@lrd', 566, 'Database','Submitter','abc123'))
 
 
-llist=('Developer','ContentWriter','SEO','DMM','UIUX','GraphicDesigner','Database')
+llist=(('Developer',),('ContentWriter',),('SEO',),('DMM',),('UIUX',),('GraphicDesigner',),('Database',))
 
 with sqlite3.connect("mailinglist.db") as connection:
     c=connection.cursor()
     c.execute('DROP TABLE IF EXISTS users')
     c.execute("CREATE TABLE users(user_id INTEGER PRIMARY KEY AUTOINCREMENT,user_name TEXT,email TEXT,phoneno INTEGER,"
               "company_designation TEXT,list_role TEXT,password TEXT)")
-    c.executemany('insert into users(user_name,email,phoneno,company_designation,list_role,password) values (?,?,?,?,?,?)',ulist)
+    c.executemany('INSERT into users(user_name,email,phoneno,company_designation,list_role,password) values (?,?,?,?,?,?)',ulist)
 
     c.execute('DROP TABLE IF EXISTS lists')
     c.execute("CREATE TABLE lists(list_id INTEGER PRIMARY KEY AUTOINCREMENT,list_name TEXT)")
-    c.executemany('insert into lists(list_name) values (?)',llist)
+    c.executemany('INSERT into lists(list_name) values (?)',llist)
 
     c.execute('DROP TABLE IF EXISTS subscriber_lists')
     c.execute("CREATE TABLE subscriber_lists(user_id INTEGER ,list_id INTEGER,"

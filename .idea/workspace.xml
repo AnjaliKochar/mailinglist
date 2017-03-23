@@ -3,17 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ef05489e-502a-43c2-be00-a69f17e93551" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mailinglist.db" afterPath="$PROJECT_DIR$/mailinglist.db" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/displaydetails.py" afterPath="$PROJECT_DIR$/displaydetails.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sql.py" afterPath="$PROJECT_DIR$/sql.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/Subscribe.html" afterPath="$PROJECT_DIR$/templates/Subscribe.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/adminlogin.html" afterPath="$PROJECT_DIR$/templates/adminlogin.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/curatoroptions.html" afterPath="$PROJECT_DIR$/templates/curatoroptions.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/curatorsendnewsletter.html" afterPath="$PROJECT_DIR$/templates/curatorsendnewsletter.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/login2.html" afterPath="$PROJECT_DIR$/templates/login2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/newsubmitterdisplay.html" afterPath="$PROJECT_DIR$/templates/newsubmitterdisplay.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/submitterlinksuggest.html" afterPath="$PROJECT_DIR$/templates/submitterlinksuggest.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/update_inputid.html" afterPath="$PROJECT_DIR$/templates/update_inputid.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/updateprofile.html" afterPath="$PROJECT_DIR$/templates/updateprofile.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -46,8 +37,8 @@
       <file leaf-file-name="sql.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sql.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="12" column="83" lean-forward="false" selection-start-line="12" selection-start-column="83" selection-end-line="12" selection-end-column="83" />
+            <state relative-caret-position="85">
+              <caret line="12" column="102" lean-forward="false" selection-start-line="12" selection-start-column="102" selection-end-line="12" selection-end-column="102" />
               <folding />
             </state>
           </provider>
@@ -855,8 +846,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sql.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="12" column="83" lean-forward="false" selection-start-line="12" selection-start-column="83" selection-end-line="12" selection-end-column="83" />
+        <state relative-caret-position="85">
+          <caret line="12" column="102" lean-forward="false" selection-start-line="12" selection-start-column="102" selection-end-line="12" selection-end-column="102" />
           <folding />
         </state>
       </provider>
