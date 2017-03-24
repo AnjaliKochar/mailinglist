@@ -12,6 +12,17 @@
         <a href="{{ url_for('admin_login') }}" style="float:right">ADMIN</a>
 
         <div align="center" style="width:100%">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                        {{message}}<br>
+                        {% endfor %}
+                    </ul>
+
+                {% endif %}
+            {% endwith %}
+
             <form action="{{url_for('new_subscription')}}" method="post">
                 <h1>WELCOME TO THE WEEKLY MAILER</h1>
                 Email:<input type="email" name="emailid" id="eid"><br><br>
@@ -19,18 +30,18 @@
                 <div style="width:40%;text-align:center">
                     <div style="width:50%;float:left;text-align:left" >
                         <ul>
-                            <li><input type="checkbox" name="developer">Developer</li><br><br>
-                            <li><input type="checkbox" name="contentwriter" >Content Writer</li><br><br>
-                            <li><input type="checkbox" name="SEO" >Search Engine Optimization</li><br><br>
-                            <li><input type="checkbox" name="DMM" >Digital Marketing Manager</li><br><br>
+                            <li><input type="checkbox" name="developer" value="Developer">Developer</li><br><br>
+                            <li><input type="checkbox" name="contentwriter" value="Contentwriter">Content Writer</li><br><br>
+                            <li><input type="checkbox" name="SEO" value="SEO">Search Engine Optimization</li><br><br>
+                            <li><input type="checkbox" name="DMM" value="DMM">Digital Marketing Manager</li><br><br>
                         </ul>
 
                     </div>
                     <div style="width:50%;float:left;text-align:left" >
                         <ul>
-                            <li><input type="checkbox" name="UI/UX">UI/UX</li><br><br>
-                            <li><input type="checkbox" name="GD">Graphic Designer</li><br><br>
-                            <li><input type="checkbox" name="database">Database</li><br><br>
+                            <li><input type="checkbox" name="UI/UX" value="UIUX">UI/UX</li><br><br>
+                            <li><input type="checkbox" name="GD" value="GraphicDesigner">Graphic Designer</li><br><br>
+                            <li><input type="checkbox" name="database" value="Database">Database</li><br><br>
                         </ul>
                     </div>
                     <div style="clear:both"></div>

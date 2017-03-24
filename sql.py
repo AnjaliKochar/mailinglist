@@ -6,7 +6,7 @@ ulist=(('John','john@lrd',233,'Developer','Submitter','abc123'),
        ('Cherry','cherry@lrd',356,'SEO','Curator','abc123'),
        ('Nisha','nisha@lrd',556,'DMM','Submitter','abc123'),
        ('Neha','neha@lrd',226,'UI/UX','Submitter','abc123'),
-       ('Harry','harry@lrd',116,'Graphic Designer','Subscriber','abc123'),
+       ('Harry','harry@lrd',116,'GraphicDesigner','Subscriber','abc123'),
        ('Om', 'om@lrd', 566, 'Database','Submitter','abc123'))
 
 

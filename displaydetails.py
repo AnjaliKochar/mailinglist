@@ -29,20 +29,103 @@ def send_newsletter():
 def suggest_link():
     return render_template('submitterlinksuggest.html')
 
-@app.route('/subscription',methods=['get','postz'])
+@app.route('/subscription',methods=['get','post'])
 def new_subscription():
     g.db=connect_database()
-    subs_email=request.form['emailid']
-    developer=request.form['developer']
-    contentwriter=request.form['contentwriter']
-    SEO=request.form['SEO']
-    DMM=request.form['DMM']
-    UIUX=request.form['UI/UX']
-    GD=request.form['GD']
-    database=request.form['database']
+    subs_email=request.form.get('emailid')
+    developer=request.form.get('developer')
+    contentwriter=request.form.get('contentwriter')
+    SEO=request.form.get('SEO')
+    DMM=request.form.get('DMM')
+    UIUX=request.form.get('UI/UX')
+    GD=request.form.get('GD')
+    database=request.form.get('database')
+    #subscribedlist=(subs_email,developer,contentwriter,SEO,DMM,UIUX,GD,database)
+    subscribedlist=[]
+
     listrole='Subscriber'
-    g.db.execute('Insert into users(email,list_role) values(?,?)',(subs_email,listrole,))
-    g.db.execute('Insert into lists')
+    if subs_email:
+        c=g.db.execute('Select user_id from users where email = ?',(subs_email,))
+        data=c.fetchone()
+        if data is None:
+            g.db.execute('Insert into users(email,list_role) values(?,?)', (subs_email, listrole,))
+        c = g.db.execute('Select user_id from users where email=?', (subs_email,))
+        userid = [dict(user_id=row[0]) for row in c.fetchall()]
+        print(userid[0].get("user_id"))
+        uid=userid[0].get("user_id")
+        if developer:#checks if developer!=none
+             c=g.db.execute('Select list_id from lists where list_name=?',('Developer',))
+             listid= [dict(list_id=row[0]) for row in c.fetchall()]
+             lid=listid[0].get("list_id")
+             try:
+                g.db.execute('Insert into subscriber_lists values (?,?)', (uid,lid))
+                subscribedlist.append('Developer')
+             except:
+                 flash('OOPS!you are already registered to the developer list')
+        if contentwriter:
+             c=g.db.execute('Select list_id from lists where list_name=?',('ContentWriter',))
+             listid= [dict(list_id=row[0]) for row in c.fetchall()]
+             lid=listid[0].get("list_id")
+             try:
+                g.db.execute('Insert into subscriber_lists values (?,?)', (uid,lid))
+                subscribedlist.append('Content Writer')
+             except:
+                 flash('OOPS!you are already registered to the Content Writer list')
+        if SEO:
+             c=g.db.execute('Select list_id from lists where list_name=?',('SEO',))
+             listid= [dict(list_id=row[0]) for row in c.fetchall()]
+             lid=listid[0].get("list_id")
+             try:
+                g.db.execute('Insert into subscriber_lists values (?,?)', (uid,lid))
+                subscribedlist.append('SEO')
+             except:
+                 flash('OOPS!you are already registered to the SEO list')
+        if DMM:
+            c = g.db.execute('Select list_id from lists where list_name=?', ('DMM',))
+            listid = [dict(list_id=row[0]) for row in c.fetchall()]
+            lid = listid[0].get("list_id")
+            try:
+                g.db.execute('Insert into subscriber_lists values (?,?)', (uid, lid))
+                subscribedlist.append('DMM')
+            except:
+                flash('OOPS!you are already registered to the DMM list')
+        if UIUX:
+             c=g.db.execute('Select list_id from lists where list_name=?',('UIUX',))
+             listid= [dict(list_id=row[0]) for row in c.fetchall()]
+             lid=listid[0].get("list_id")
+             try:
+                g.db.execute('Insert into subscriber_lists values (?,?)', (uid,lid))
+                subscribedlist.append('UI/UX')
+             except:
+                flash('OOPS!you are already registered to the UI/UX list')
+        if GD:
+             c=g.db.execute('Select list_id from lists where list_name=?',('GraphicDesigner',))
+             listid= [dict(list_id=row[0]) for row in c.fetchall()]
+             lid=listid[0].get("list_id")
+             try:
+                g.db.execute('Insert into subscriber_lists values (?,?)', (uid,lid))
+                subscribedlist.append('Graphic Designer')
+             except:
+                 flash('OOPS!you are already registered to the Graphic Designer list')
+        if database:
+            c = g.db.execute('Select list_id from lists where list_name=?', ('Database',))
+            listid = [dict(list_id=row[0]) for row in c.fetchall()]
+            lid = listid[0].get("list_id")
+            try:
+                g.db.execute('Insert into subscriber_lists values (?,?)', (uid, lid))
+                subscribedlist.append('Database')
+            except:
+                flash('OOPS!you are already registered to the Database list')
+
+        if subscribedlist:
+            print(len(subscribedlist))
+            msg = "Congratulations!!you are now registered to "
+            lst = ",".join(subscribedlist)
+            msg = msg+lst+" list"
+            flash(msg)
+
+    else:
+        flash("Please enter your email id ")
     g.db.commit()
     g.db.close()
     return render_template('Subscribe.html')
@@ -139,8 +222,9 @@ def curatorupdateprofile_submitclick():
 def subdetails():
     g.db=connect_database()
 
-    c=g.db.execute('select user_name,email,phoneno,company_designation,list_role,subscribed_list,password from users')
-    details = [dict(user_name=row[0], email=row[1], phoneno=row[2], company_designation=row[3],list_role=row[4],subscribed_list=row[5],password=row[6]) for row in c.fetchall()]
+    c=g.db.execute('select * from users')
+    details = [dict(user_id=row[0], user_name=row[1], email=row[2], phoneno=row[3], company_designation=row[4],
+                    list_role=row[5], password=row[6]) for row in c.fetchall()]
     g.db.close()
     return render_template('login2.html', details=details)
 
