@@ -14,7 +14,7 @@
                 {%for item in details%}
                     <h1>Update Details of {{item.name}} </h1><br>
                     <input type="hidden" name="mail" value="{{item.email}}" ></input>
-                    List Role :
+
                     <!--<select>
                         <option>{{item.listrole}}</option>
                         {% if item.listrole == 'Curator' %}
@@ -23,8 +23,12 @@
                         {% else %}
                         <option>Curator</option>
                         {% endif %}
-                    </select>-->
-                    {% if item.listrole == 'Curator' %}
+                    </select>
+                    fieldset is used to group elements that belong to same things together-->
+                <fieldset style="display:inline-block">
+                    <legend>{{item.name}}</legend>
+                     List Role :
+                        {% if item.listrole == 'Curator' %}
                         <input type="radio" name="role" value="Subscriber">Subscriber
                         <input type="radio" name="role" value="Submitter">Submitter
                         <input type="radio" name="role"  value="Curator"checked>Curator
@@ -37,6 +41,8 @@
                         <input type="radio" name="role" value="Submitter">Submitter
                         <input type="radio" name="role" value="Curator">Curator
                     {% endif %}
+                </fieldset>
+
                 {%endfor%}
                 <br><br>
                 <button type="button" onclick="history.go(-1)">Back</button>

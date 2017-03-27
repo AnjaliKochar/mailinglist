@@ -7,13 +7,48 @@
 <body>
     <section>
         <div>
-            <form action="" method="post" >
+            <div align="center">
+                {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    {{message}}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+            </div>
+
+            <form action="{{url_for('submittersuggestions_method')}}" method="post" >
                 <div align="right"><a href="{{url_for('firstpage')}}">Logout</a> </div>
-                <div style="text-align:center;margin-top:10%">
-                    <h1>Enter link to send to the curator</h1>
-                    Url:<input type="url">
+                <h1 align="center" style="margin-top:5%">Your suggestions are always welcomed </h1>
+                <div style="margin-left:39%">
+                    <div style="float:left">
+                        <label>Title:</label><br><br>
+                        <label>Url:</label><br><br>
+                        <label>List:</label><br><br>
+                        <label>Description:</label><br><br>
+
+                    </div>
+                    <div>
+                        <input type="text" name="title" id="titleid"><br><br>
+                        <input type="url" name="url" id="urlid"><br><br>
+
+                        <select style="height:21px" name="listname">
+                            <option>Content writer</option>
+                            <option>SEO</option>
+                            <option>Developer</option>
+                            <option>Graphic designer</option>
+                            <option>UI/UX</option>
+                            <option>Database</option>
+                            <option>Digital marketing manager</option>
+                        </select><br><br>
+
+                        <textarea rows="4" cols="50" name="description"></textarea><br><br>
+                        <!--textarea is for multiline input -->
+                    </div>
+                </div>
+                <div style="clear:both;text-align:center">
+                        <button type="button" onclick="history.go(-1)">Back</button>
                     <input type="submit" value="Send"><br><br>
-                    <button type="button" onclick="history.go(-1)">Back</button>
                 </div>
 
             </form>

@@ -47,9 +47,9 @@ def new_subscription():
     if subs_email:
         c=g.db.execute('Select user_id from users where email = ?',(subs_email,))
         data=c.fetchone()
-        if data is None:
+        if data is None:#cannot use try here because user's email id may be existing before but he might subscribe to new list now
             g.db.execute('Insert into users(email,list_role) values(?,?)', (subs_email, listrole,))
-        c = g.db.execute('Select user_id from users where email=?', (subs_email,))
+        c = g.db.execute('Select user_id from users where email=?', (subs_email,))#may be new record is inserted in previous query so refired this query
         userid = [dict(user_id=row[0]) for row in c.fetchall()]
         print(userid[0].get("user_id"))
         uid=userid[0].get("user_id")
@@ -217,6 +217,33 @@ def curatorupdateprofile_submitclick():
     flash('RECORDS UPDATED !!')
     return render_template('curatoroptions.html')
 
+@app.route('/submittersuggestions' , methods=['get','post'])
+def submittersuggestions_method():
+    g.db=connect_database()
+    try:
+        title=request.form.get('title')
+        description=request.form.get('description')
+        list_name=request.form.get('listname')
+        url=request.form.get('url')
+        mail = session['useremail']
+        if title and description and list_name and url:
+            c=g.db.execute('SELECT list_id from lists where list_name = ?',(list_name,))
+            details=[dict(list_id=row[0])for row in c.fetchall()]
+            lid=details[0].get("list_id")
+            c=g.db.execute('SELECT user_id from users where email = ?',(mail,))
+            details=[dict(user_id=row[0])for row in c.fetchall()]
+            uid=details[0].get("user_id")
+            c=g.db.execute('INSERT into submitter_suggestions(user_id,list_id,url,title,description)'
+                           ' values(?,?,?,?,?)',(uid,lid,url ,title,description,))
+            flash('Thank you for your suggestions ')
+        else:
+            flash('Please fill all the details')
+        g.db.commit()
+        g.db.close()
+    except:
+        flash('OOOPS!!Sorry, you cannot register the same link for the same list again')
+        g.db.close()
+    return render_template('submitterlinksuggest.html')
 
 @app.route('/details')
 def subdetails():

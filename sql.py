@@ -10,24 +10,36 @@ ulist=(('John','john@lrd',233,'Developer','Submitter','abc123'),
        ('Om', 'om@lrd', 566, 'Database','Submitter','abc123'))
 
 
-llist=(('Developer',),('ContentWriter',),('SEO',),('DMM',),('UIUX',),('GraphicDesigner',),('Database',))
+llist=(('Developer',),('Content writer',),('SEO',),('DMM',),('UIUX',),('GraphicDesigner',),('Database',))
 
 with sqlite3.connect("mailinglist.db") as connection:
     c=connection.cursor()
     c.execute('DROP TABLE IF EXISTS users')
-    c.execute("CREATE TABLE users(user_id INTEGER PRIMARY KEY AUTOINCREMENT,user_name TEXT,email TEXT,phoneno INTEGER,"
+    c.execute("CREATE TABLE users(user_id INTEGER PRIMARY KEY AUTOINCREMENT,user_name TEXT,email TEXT UNIQUE,phoneno INTEGER,"
               "company_designation TEXT,list_role TEXT,password TEXT)")
     c.executemany('INSERT into users(user_name,email,phoneno,company_designation,list_role,password) values (?,?,?,?,?,?)',ulist)
 
+    """primary key should be as small as possible ,because it makes searching faster
+    as primary key is by default indexed small keys take less space
+    every curator and submitter will be subscriber
+    """
+
     c.execute('DROP TABLE IF EXISTS lists')
-    c.execute("CREATE TABLE lists(list_id INTEGER PRIMARY KEY AUTOINCREMENT,list_name TEXT)")
+    c.execute("CREATE TABLE lists(list_id INTEGER PRIMARY KEY AUTOINCREMENT,list_name TEXT UNIQUE)")
     c.executemany('INSERT into lists(list_name) values (?)',llist)
 
     c.execute('DROP TABLE IF EXISTS subscriber_lists')
-    c.execute("CREATE TABLE subscriber_lists(user_id INTEGER ,list_id INTEGER,"
+    c.execute("CREATE TABLE subscriber_lists(sl_id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER ,list_id INTEGER,"
               "FOREIGN KEY(list_id) REFERENCES lists(list_id),FOREIGN KEY (user_id) REFERENCES users(user_id),"
-              "PRIMARY KEY(user_id,list_id))")
+              "UNIQUE(user_id,list_id))")
+    # c.execute("insert into subscriber_lists values (?,?,?)",(1,1,2))
+    # c.execute("insert into subscriber_lists values (?,?,?)", (2, 1, 2))
 
+    c.execute('DROP TABLE IF EXISTS submitter_suggestions')
+    c.execute("CREATE TABLE submitter_suggestions(ss_id INTEGER PRIMARY KEY  AUTOINCREMENT,user_id INTEGER,list_id INTEGER,url TEXT,"
+              "title TEXT,description TEXT,"
+              "FOREIGN KEY(user_id) REFERENCES users(user_id),FOREIGN KEY(list_id) REFERENCES lists(list_id),"
+              "UNIQUE(user_id,list_id,url))")#one user can suggest one url for only one list
 
 
 
