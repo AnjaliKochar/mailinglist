@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Suggestions</title>
+    <style>
+        <!--table,th,td{-->
+        <!--border:1px solid black;-->
+        <!--border-collapse:collapse;-->
+        <!--}-->
+        th,td{
+        padding:15px;
+        text-align:left;
+        }
+        table tr:nth-child(even) {
+        background-color: gainsboro;
+        }
+        table tr:nth-child(odd) {
+        background-color: lightsteelblue;
+        }
+
+    </style>
+
+</head>
+<body>
+    <section>
+        <div align="right"><a href="{{url_for('firstpage')}}">Logout</a> </div>
+        <div style="margin-top:3%">
+            <form action="" method="post">
+                <table  style="width:100%">
+                <caption style="font-size:30px"><b>Suggestions for your Lists</b></caption>
+                <tr>
+                    <th></th>
+                    <th>Suggestion ID</th>
+                    <th>Submitter Name</th>
+                    <th>List Name</th>
+                    <th>Title</th>
+                    <th>URL</th>
+                    <th>Description</th>
+
+                </tr>
+                {% for item in details %}
+                <tr>
+                    <td><input type="checkbox" ></td>
+                    <td>{{item.ss_id}}</td>
+                    <td>{{item.user_id}}</td>
+                    <td>{{item.list_id}}</td>
+                    <td>{{item.title}}</td>
+                    <td>{{item.url}}</td>
+                    <td>{{item.description}}</td>
+                </tr>
+                {% endfor %}
+                </table>
+                <div align="center" style="margin-top:5%">
+                    <button type="button" onclick="history.go(-1)" >Back</button>
+                    <input type="submit" value="Send">
+                </div>
+
+            </form>
+
+
+        </div>
+    </section>
+</body>
+</html>

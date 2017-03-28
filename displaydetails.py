@@ -166,6 +166,15 @@ def assign_newsubmittermethod():
     g.db.close()
     return render_template('newsubmitterdisplay.html', details=details)
 
+
+@app.route('/curatoroptionsviewsuggestions')
+def view_suggestions():
+    g.db = connect_database()
+    c=g.db.execute('SELECT * from submitter_suggestions')
+    details=[dict(ss_id=row[0],user_id=row[1],list_id=row[2],url=row[3],title=row[4],description=row[5])for row in c.fetchall()]
+    return render_template('curatorviewsuggestions.html',details=details)
+
+
 @app.route('/updatesubmitterbycurator',methods=['get','post'])
 def updatesubmitter_curator():
     g.db=connect_database()

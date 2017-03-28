@@ -18,7 +18,7 @@
         {% endwith %}
         <form>
             <div align="right"><a href="{{url_for('firstpage')}}">Logout</a> </div>
-            <div style="width:60%;margin-top:10%;margin-left:30%">
+            <div style="width:60%;margin-top:10%;margin-left:23%">
             <div style="float:left;padding:5%">
                 <a  href="{{url_for('assign_newsubmitter')}}" style="color:grey" > <i class="fa fa-user-circle-o fa-5x " aria-hidden="true" style="margin-left:20%" ></i><br>Assign new submitter</a>
             </div>
@@ -26,7 +26,11 @@
                 <a href="{{url_for('detail')}}" style="color:grey"> <i class="fa fa-pencil-square-o fa-5x" aria-hidden="true" style="margin-left:15%"  ></i><br>Update profile</a>
             </div>
             <div style="float:left;padding:5%">
+                <!--For sending newsletter of curator's choice-->
                 <a href="{{url_for('send_newsletter')}}" style="color:grey"><i class="fa fa-envelope-square fa-5x" aria-hidden="true" style="margin-left:15%"></i><br>Send newsletter</a>
+            </div>
+                <div style="float:left;padding:5%">
+                <a href="{{url_for('view_suggestions')}}" style="color:grey"><i class="fa fa-eye fa-5x" aria-hidden="true" style="margin-left:15%"></i><br>View Suggestions</a>
             </div>
             </div>
         </form>
