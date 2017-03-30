@@ -32,16 +32,21 @@ with sqlite3.connect("mailinglist.db") as connection:
     c.execute("CREATE TABLE subscriber_lists(sl_id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER ,list_id INTEGER,"
               "FOREIGN KEY(list_id) REFERENCES lists(list_id),FOREIGN KEY (user_id) REFERENCES users(user_id),"
               "UNIQUE(user_id,list_id))")
-    # c.execute("insert into subscriber_lists values (?,?,?)",(1,1,2))
-    # c.execute("insert into subscriber_lists values (?,?,?)", (2, 1, 2))
+    c.execute("insert into subscriber_lists(user_id,list_id) values (?,?)", (1,1,))
+    c.execute("insert into subscriber_lists(user_id,list_id) values (?,?)", (1,2,))
+    c.execute("insert into subscriber_lists(user_id,list_id) values (?,?)", (2,1,))
 
     c.execute('DROP TABLE IF EXISTS submitter_suggestions')
     c.execute("CREATE TABLE submitter_suggestions(ss_id INTEGER PRIMARY KEY  AUTOINCREMENT,user_id INTEGER,list_id INTEGER,url TEXT,"
               "title TEXT,description TEXT,"
               "FOREIGN KEY(user_id) REFERENCES users(user_id),FOREIGN KEY(list_id) REFERENCES lists(list_id),"
               "UNIQUE(user_id,list_id,url))")#one user can suggest one url for only one list
-
-
+    c.execute('INSERT into submitter_suggestions(user_id,list_id,url,title,description) values(?,?,?,?,?)',
+              (1,1,'https://us15.admin.mailchimp.com/account/api/','mailchimp','abc'))
+    c.execute('INSERT into submitter_suggestions(user_id,list_id,url,title,description) values(?,?,?,?,?)',
+              (4,1,'https://us15.admin.mailchimp.com/account/api/','mailchimp','abc'))
+    c.execute('INSERT into submitter_suggestions(user_id,list_id,url,title,description) values(?,?,?,?,?)',
+              (4, 2, 'https://us15.admin.mailchimp.com/account/api/', 'mailchimp', 'abc'))
 
 """mlist=(('John','john@lrd',233,'Developer','Submitter','abc123',1,0,0,0,0,0,0),
        ('Marry','marry@lrd',556,'Content Writer','abc123','Subscriber',0,1,0,0,0,0,0),

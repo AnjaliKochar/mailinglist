@@ -1,10 +1,15 @@
 from flask import Flask,g,render_template,request,flash,session
+from mailchimp3 import MailChimp
 import sqlite3
 
 app=Flask(__name__)
 DATABASE="mailinglist.db"
 app.config.from_object(__name__)
 app.secret_key="key"
+
+
+clint=MailChimp('anjalikochar','28d55712cae9ab0c29a4cc7c5c9fde3b-us15')#initialized the mailchimp class as clint
+
 
 def connect_database():
     return sqlite3.connect(app.config['DATABASE'])
@@ -253,6 +258,26 @@ def submittersuggestions_method():
         flash('OOOPS!!Sorry, you cannot register the same link for the same list again')
         g.db.close()
     return render_template('submitterlinksuggest.html')
+
+@app.route('/curatorsendmailfromsuggestions',methods=['get','post'])
+def send_newsletterfromsuggestions():
+    g.db=connect_database()
+
+    listid=request.form.getlist('selectedlists')#here the result will be the list[] if selected rows in submitter_suggestions table
+    print(listid)
+
+    for ids in listid:
+        c=g.db.execute('SELECT user_id from subscriber_lists where list_id = ?',ids)
+        userid=[row[0] for row in c.fetchall()]
+        # details=[dict(userid=row[0])for row in c.fetchall()]
+        for uid in userid:
+            c=g.db.execute('SELECT email from users where user_id = ?',(uid,))
+            details=[row[0] for row in c.fetchall()]
+        #details=[dict(emailid=row[0])for row in c.fetchall()]
+            print(details)
+        #logic to send email to details
+    g.db.close()
+    return render_template('curatorviewsuggestions.html')
 
 @app.route('/details')
 def subdetails():
