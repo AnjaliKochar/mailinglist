@@ -6,22 +6,34 @@
     <style>
         ul li{list-style:none}
     </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <section>
+    <section class="container-fluid">
         <a href="{{ url_for('admin_login') }}" style="float:right">ADMIN</a>
 
-        <div align="center" style="width:100%">
-            {% with messages = get_flashed_messages() %}
+        <div  align="center" style="width:100%">
+
+                {% with messages = get_flashed_messages() %}
                 {% if messages %}
+            <div class="alert alert-info">
                     <ul>
                         {% for message in messages %}
                         {{message}}<br>
                         {% endfor %}
                     </ul>
-
+            </div>
                 {% endif %}
             {% endwith %}
+
+
 
             <form action="{{url_for('new_subscription')}}" method="post">
                 <h1>WELCOME TO THE WEEKLY MAILER</h1>
@@ -45,7 +57,7 @@
                         </ul>
                     </div>
                     <div style="clear:both"></div>
-                    <input type="submit" name="submit" value="SUBMIT">
+                    <input type="submit" name="submit" value="SUBMIT" class="btn btn-info btn-lg">
                 </div>
 
 

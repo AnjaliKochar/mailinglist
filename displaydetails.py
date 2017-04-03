@@ -1,18 +1,43 @@
 from flask import Flask,g,render_template,request,flash,session
+from functools import wraps
 from mailchimp3 import MailChimp
 import sqlite3
 
 app=Flask(__name__)
 DATABASE="mailinglist.db"
+
 app.config.from_object(__name__)
 app.secret_key="key"
-
 
 clint=MailChimp('anjalikochar','28d55712cae9ab0c29a4cc7c5c9fde3b-us15')#initialized the mailchimp class as clint
 
 
 def connect_database():
     return sqlite3.connect(app.config['DATABASE'])
+
+
+def login_required(test):
+    @wraps(test)
+    def wrap(*args,**kwargs):
+        if 'logged_in' in session:
+            print('i m not clearing session')
+            return test(*args,**kwargs)
+        else:
+
+            flash('login required !!')
+            return render_template('Subscribe.html')
+    return wrap
+
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    # session.pop('logged_in', None)
+    # session.pop('useremail',None)
+    session.clear()
+    flash('u have been logged out')
+    return render_template('Subscribe.html')
 
 @app.route('/')
 def firstpage():
@@ -23,14 +48,17 @@ def admin_login():
      return render_template('adminlogin.html')
 
 @app.route('/curatoroptionsassignnew')
+@login_required
 def assign_newsubmitter():
     return render_template('update_inputid.html')
 
 @app.route('/curatoroptionssendnewsletter')
+@login_required
 def send_newsletter():
     return render_template('curatorsendnewsletter.html')
 
 @app.route('/submitter_suggest_link')
+@login_required
 def suggest_link():
     return render_template('submitterlinksuggest.html')
 
@@ -63,16 +91,16 @@ def new_subscription():
              listid= [dict(list_id=row[0]) for row in c.fetchall()]
              lid=listid[0].get("list_id")
              try:
-                g.db.execute('Insert into subscriber_lists values (?,?)', (uid,lid))
+                g.db.execute('Insert into subscriber_lists(user_id,list_id) values (?,?)', (uid,lid))
                 subscribedlist.append('Developer')
              except:
                  flash('OOPS!you are already registered to the developer list')
         if contentwriter:
-             c=g.db.execute('Select list_id from lists where list_name=?',('ContentWriter',))
+             c=g.db.execute('Select list_id from lists where list_name=?',('Content writer',))
              listid= [dict(list_id=row[0]) for row in c.fetchall()]
              lid=listid[0].get("list_id")
              try:
-                g.db.execute('Insert into subscriber_lists values (?,?)', (uid,lid))
+                g.db.execute('Insert into subscriber_lists(user_id,list_id) values (?,?)', (uid,lid))
                 subscribedlist.append('Content Writer')
              except:
                  flash('OOPS!you are already registered to the Content Writer list')
@@ -81,7 +109,7 @@ def new_subscription():
              listid= [dict(list_id=row[0]) for row in c.fetchall()]
              lid=listid[0].get("list_id")
              try:
-                g.db.execute('Insert into subscriber_lists values (?,?)', (uid,lid))
+                g.db.execute('Insert into subscriber_lists(user_id,list_id) values (?,?)', (uid,lid))
                 subscribedlist.append('SEO')
              except:
                  flash('OOPS!you are already registered to the SEO list')
@@ -90,7 +118,7 @@ def new_subscription():
             listid = [dict(list_id=row[0]) for row in c.fetchall()]
             lid = listid[0].get("list_id")
             try:
-                g.db.execute('Insert into subscriber_lists values (?,?)', (uid, lid))
+                g.db.execute('Insert into subscriber_lists(user_id,list_id) values (?,?)', (uid, lid))
                 subscribedlist.append('DMM')
             except:
                 flash('OOPS!you are already registered to the DMM list')
@@ -99,7 +127,7 @@ def new_subscription():
              listid= [dict(list_id=row[0]) for row in c.fetchall()]
              lid=listid[0].get("list_id")
              try:
-                g.db.execute('Insert into subscriber_lists values (?,?)', (uid,lid))
+                g.db.execute('Insert into subscriber_lists(user_id,list_id) values (?,?)', (uid,lid))
                 subscribedlist.append('UI/UX')
              except:
                 flash('OOPS!you are already registered to the UI/UX list')
@@ -108,7 +136,7 @@ def new_subscription():
              listid= [dict(list_id=row[0]) for row in c.fetchall()]
              lid=listid[0].get("list_id")
              try:
-                g.db.execute('Insert into subscriber_lists values (?,?)', (uid,lid))
+                g.db.execute('Insert into subscriber_lists(user_id,list_id) values (?,?)', (uid,lid))
                 subscribedlist.append('Graphic Designer')
              except:
                  flash('OOPS!you are already registered to the Graphic Designer list')
@@ -117,7 +145,7 @@ def new_subscription():
             listid = [dict(list_id=row[0]) for row in c.fetchall()]
             lid = listid[0].get("list_id")
             try:
-                g.db.execute('Insert into subscriber_lists values (?,?)', (uid, lid))
+                g.db.execute('Insert into subscriber_lists(user_id,list_id) values (?,?)', (uid, lid))
                 subscribedlist.append('Database')
             except:
                 flash('OOPS!you are already registered to the Database list')
@@ -146,16 +174,20 @@ def curatororsub_login():
     detaillist=((profile,aemail,apswd))
     c=g.db.execute('select user_name from users where list_role=? AND email=? AND password=?', detaillist)
     details = [dict(user_name=row[0]) for row in c.fetchall()]
-    session['useremail'] = aemail
+
     if len(details) > 0 and profile=='Submitter':
+        session['logged_in'] = True
+        session['useremail'] = aemail
         g.db.close()
         return render_template('submitteroptions.html')
     elif len(details) > 0 and profile=='Curator':
+        session['logged_in']=True
+        session['useremail'] = aemail
         g.db.close()
         return render_template('curatoroptions.html',session=session)
+
     else:
         flash('sorry incorrect details !!')
-        session.pop('useremail')
         g.db.close()
         return render_template('adminlogin.html')
 
@@ -163,6 +195,7 @@ def curatororsub_login():
 
 
 @app.route('/curatoroptionsassignnew',methods=['get','post'])
+@login_required
 def assign_newsubmittermethod():
     g.db = connect_database()
     mail = request.form['email'] #cannot use session because updation of another id is done
@@ -173,6 +206,7 @@ def assign_newsubmittermethod():
 
 
 @app.route('/curatoroptionsviewsuggestions')
+@login_required
 def view_suggestions():
     g.db = connect_database()
     c=g.db.execute('SELECT * from submitter_suggestions')
@@ -181,6 +215,7 @@ def view_suggestions():
 
 
 @app.route('/updatesubmitterbycurator',methods=['get','post'])
+@login_required
 def updatesubmitter_curator():
     g.db=connect_database()
     mail = request.form['mail']
@@ -196,6 +231,7 @@ def updatesubmitter_curator():
 
 
 @app.route('/curatoroptionsupdateprofile',methods=['get','post'])
+@login_required
 def detail():
     g.db=connect_database()
     mail=session['useremail']
@@ -210,6 +246,7 @@ def detail():
 
 
 @app.route('/curatoroptionsprofileupdateclick',methods=['get','post'])
+@login_required
 def curatorupdateprofile_submitclick():
     g.db=connect_database()
     userid=request.form['userid']
@@ -232,6 +269,7 @@ def curatorupdateprofile_submitclick():
     return render_template('curatoroptions.html')
 
 @app.route('/submittersuggestions' , methods=['get','post'])
+@login_required
 def submittersuggestions_method():
     g.db=connect_database()
     try:
@@ -260,6 +298,7 @@ def submittersuggestions_method():
     return render_template('submitterlinksuggest.html')
 
 @app.route('/curatorsendmailfromsuggestions',methods=['get','post'])
+@login_required
 def send_newsletterfromsuggestions():
     g.db=connect_database()
 
