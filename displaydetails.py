@@ -29,6 +29,7 @@ def mc_try():
     mc.call(payload)
     return {"success": True}
 
+#for sending mail via smtp
 app.config.update(DEBUG=True,MAIL_SERVER='smtp.gmail.com',MAIL_PORT=465
                   ,MAIL_USE_SSL=True,MAIL_USERNAME='anjiekochar@gmail.com',MAIL_PASSWORD='My password')
 

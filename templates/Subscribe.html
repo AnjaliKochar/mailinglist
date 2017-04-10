@@ -1,12 +1,12 @@
 {% extends 'masteroutlay.html' %}
             {%block heading %}WELCOME TO THE WEEKLY MAILER{% endblock %}
             {% block subscribe %}
-                    <form action="{{url_for('new_subscription')}}" method="post">
-                        <div class="col-sm-8">
-               <div class="form-group col-sm-10 pull-left">
+            <form action="{{url_for('new_subscription')}}" method="post">
+               <div class="col-sm-8">
+                   <div class="form-group col-sm-10 pull-left">
                    <label> Email:</label>
                    <input type="email" class="form-control" name="emailid" id="eid">
-               </div>
+                   </div>
                <div class="clearfix"></div>
                <div class="row pull-left col-sm-12">
                    <h2>Please select the topic of your interest : </h2>
