@@ -46,14 +46,11 @@
             <div class="welcome"><h1>{% block heading %}{% endblock %}</h1></div>
             </div>
             <div class="row mail-img">
-                <!--<div class="col-sm-4">-->
-                    <!--<img src="static\ebook.png">-->
-                <!--</div>-->
-
-
-                {% block curator_options %}{% endblock %}
-                {% block submitter_options %}{% endblock %}
+                <div class="col-sm-4">
+                    <img src="static\ebook.png">
+                </div>
                 {% block newsubmitter_id %}{% endblock %}
+                {% block update_newsubmitter %}{% endblock %}
              </div>
 
     </div>

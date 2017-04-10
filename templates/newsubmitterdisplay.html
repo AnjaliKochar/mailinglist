@@ -1,66 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>New submitter</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+{% extends 'masteroutlay_logout_image.html' %}
+    {% block heading %}Update details of existing subscriber{% endblock %}
+    {% block update_newsubmitter %}
+        <form  action="{{url_for('updatesubmitter_curator')}}" method="post">
+            {% for item in details %}
+                <div class="form-group">
+                    <div class="col-sm-5 pull-left">
+                        <label>Name:</label>
+                        <input type="text" id="name" name="name" class="form-control">
+                        <label>Email id:</label>
+                        <input type ="email" id="email" name="email" value="{{item.email}}" class="form-control">
+                        <label>Contact number:</label>
+                        <input type="number" id="contactnumber" name="contactnumber" class="form-control">
+                        <label>Designation:</label>
+                        <input type="text" id="designation" name="designation" class="form-control">
 
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-</head>
-<body>
-    <!--{%for item in details%}
-    {{item.user_name}}|{{item.email}}|{{item.phoneno}}|{{item.company_designation}}|{{item.list_role}}|{{item.password}}<br><br>
-    {%endfor%}-->
-    <section>
-        <div align="right"><a href="{{url_for('logout')}}">Logout</a> </div>
-        <div align="center" style="margin-top:10%">
-            <form action="{{url_for('updatesubmitter_curator')}}" method="post">
-                {%for item in details%}
-                    <h1>Update Details of {{item.name}} </h1><br>
-                    <input type="hidden" name="mail" value="{{item.email}}" ></input>
-
-                    <!--<select>
-                        <option>{{item.listrole}}</option>
+                        <label>List Role:</label>
+                        <div style="margin-bottom: 15px;" >
                         {% if item.listrole == 'Curator' %}
-                        <option>Submitter</option>
-
-                        {% else %}
-                        <option>Curator</option>
-                        {% endif %}
-                    </select>
-                    fieldset is used to group elements that belong to same things together-->
-                <fieldset style="display:inline-block">
-                    <legend>{{item.name}}</legend>
-                     List Role :
-                        {% if item.listrole == 'Curator' %}
-                        <input type="radio" name="role" value="Subscriber">Subscriber
+                        <input type="radio" name="role" value="Subscriber"  >Subscriber
                         <input type="radio" name="role" value="Submitter">Submitter
-                        <input type="radio" name="role"  value="Curator"checked>Curator
-                    {% elif item.listrole == 'Submitter'  %}
+                        <input type="radio" name="role"  value="Curator" checked >Curator
+                        {% elif item.listrole == 'Submitter'  %}
                         <input type="radio" name="role" value="Subscriber">Subscriber
                         <input type="radio" name="role" value="Submitter" checked>Submitter
                         <input type="radio" name="role" value="Curator">Curator
-                    {% else %}
+                        {% else %}
                         <input type="radio" name="role" value="Subscriber" checked>Subscriber
                         <input type="radio" name="role" value="Submitter">Submitter
                         <input type="radio" name="role" value="Curator">Curator
-                    {% endif %}
-                </fieldset>
+                        {% endif %}
+                        </div>
 
-                {%endfor%}
-                <br><br>
-                <button type="button" onclick="history.go(-1)">Back</button>
-                <button type="submit">UPDATE</button>
-            </form>
-        </div>
-    </section>
-
-
-</body>
-</html>
+                        <label>Password:</label>
+                        <input type="password" id="password" name="password" class="form-control">
+                        <input type="hidden" name="userid" value="{{item.userid}}">
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="clearfix"></div>
+             <div class="btn-container">
+                <button type="button" onclick="history.go(-1)" class="btn btn-info btn-lg">Back</button>
+                <button type="submit" class="btn btn-info btn-lg">Update</button>
+             </div>
+        </form>
+    {% endblock %}

@@ -1,24 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>New submitter</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-    <section>
+//not using
+{% extends 'masteroutlay_logout.html' %}
+{% heading %}ASSIGN NEW SUBMITTER{% heading %}
         <div>
             <form  action = "{{ url_for('assign_newsubmittermethod') }}" method="post">
-                <div align="right"><a href="{{url_for('logout')}}">Logout</a> </div>
-                <h1 style="text-align:center">ASSIGN NEW SUBMITTER</h1>
-                <div style="text-align:right;width:60%">
+                <div>
                     Name:
                     <input type="text"  name="nme"><br><br>
                     Email id:
@@ -35,11 +20,8 @@
                     <input type="password"  name="conpswrd"><br><br>
 
                 </div>
-                <div align="center">
+                <div>
                      <input type="submit" value="Submit" id="update">
                 </div>
             </form>
         </div>
-    </section>
-</body>
-</html>

@@ -197,8 +197,7 @@ def curatororsub_login():
     apswd = request.form['adminpswd']
     detaillist=((profile,aemail,apswd))
     c=g.db.execute('select user_name from users where list_role=? AND email=? AND password=?', detaillist)
-    details = [dict(user_name=row[0]) for row in c.fetchall()]
-
+    details = [dict(user_name=row[0]) for row in c.fetchall()]#here if details are incorrect len is 0
     if len(details) > 0 and profile=='Submitter':
         session['logged_in'] = True
         session['useremail'] = aemail
@@ -223,10 +222,14 @@ def curatororsub_login():
 def assign_newsubmittermethod():
     g.db = connect_database()
     mail = request.form['email'] #cannot use session because updation of another id is done
-    c=g.db.execute('select user_name,list_role from users where email=?',(mail,))
-    details=[dict(name=row[0],listrole=row[1],email=mail) for row in c.fetchall()]
+    c=g.db.execute('select user_id,list_role from users where email=?',(mail,))
+    details=[dict(userid=row[0],listrole=row[1],email=mail) for row in c.fetchall()]
     g.db.close()
-    return render_template('newsubmitterdisplay.html', details=details)
+    if len(details)>0:
+        return render_template('newsubmitterdisplay.html', details=details)
+    else:
+        flash("OOPS!!No such subscriber is registered ")
+        return render_template('update_inputid.html')
 
 
 @app.route('/curatoroptionsviewsuggestions')
