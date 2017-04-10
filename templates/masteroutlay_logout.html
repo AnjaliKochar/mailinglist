@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet"  type="text/css" href="{{url_for('static',filename='index.css')}}">
+</head>
+<body class="container">
+
+    <div class="bg-login">
+        <header>
+            <div class="row">
+               <div class="col-sm-2">
+                  <img src="static\logo.png" >
+               </div>
+                <div class="col-sm-10">
+                    <nav>
+                        <ul>
+                             <li><a href="javascript:;">Home</a></li>
+                             <li><a href="javascript:;">From Readers</a></li>
+                             <li><a href="javascript:;">Contact Us</a></li>
+                             <li><a href="{{url_for('logout')}}"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+            <div class="clearfix"></div>
+            <div align="center">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="alert alert-info">
+                    <ul>
+                        {% for message in messages %}
+                        {{message}}<br>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                {% endwith %}
+            <div class="welcome"><h1>{% block heading %}{% endblock %}</h1></div>
+            </div>
+            <div class="row mail-img">
+                <!--<div class="col-sm-4">-->
+                    <!--<img src="static\ebook.png">-->
+                <!--</div>-->
+
+
+                {% block curator_options %}{% endblock %}
+             </div>
+
+    </div>
+</body>
+</html>

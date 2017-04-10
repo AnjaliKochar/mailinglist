@@ -1,7 +1,9 @@
 from flask import Flask,g,render_template,request,flash,session
 from functools import wraps
-from mailchimp3 import MailChimp
 import sqlite3
+from flask_mail import Mail,Message
+from mailchimp import Mailchimp
+import json
 
 app=Flask(__name__)
 DATABASE="mailinglist.db"
@@ -9,11 +11,32 @@ DATABASE="mailinglist.db"
 app.config.from_object(__name__)
 app.secret_key="key"
 
-clint=MailChimp('anjalikochar','28d55712cae9ab0c29a4cc7c5c9fde3b-us15')#initialized the mailchimp class as clint
+#clint=MailChimp('anjalikochar','28d55712cae9ab0c29a4cc7c5c9fde3b-us15')#initialized the mailchimp class as clint
+@app.route('/mailchimptry')
+def mc_try():
 
+    api_key='28d55712cae9ab0c29a4cc7c5c9fde3b-us15'
+    payload={
+        "list_id":"c90bbdf1dc",
+        "email_address": "karankochar99@gmail.com",
+        "status": "subscribed",
+        "merge_fields": {
+            "FNAME": "karan",
+            "LNAME": "kochar"
+        }
+    }
+    mc = Mailchimp(api_key, True)
+    mc.call(payload)
+    return {"success": True}
 
+app.config.update(DEBUG=True,MAIL_SERVER='smtp.gmail.com',MAIL_PORT=465
+                  ,MAIL_USE_SSL=True,MAIL_USERNAME='anjiekochar@gmail.com',MAIL_PASSWORD='My password')
+
+mail=Mail(app)
 def connect_database():
     return sqlite3.connect(app.config['DATABASE'])
+
+
 
 
 def login_required(test):
@@ -36,7 +59,7 @@ def logout():
     # session.pop('logged_in', None)
     # session.pop('useremail',None)
     session.clear()
-    flash('u have been logged out')
+    flash('U have been logged out!! ')
     return render_template('Subscribe.html')
 
 @app.route('/')
@@ -179,12 +202,12 @@ def curatororsub_login():
         session['logged_in'] = True
         session['useremail'] = aemail
         g.db.close()
-        return render_template('submitteroptions.html')
+        return render_template('submitteroptions.html',details=details)
     elif len(details) > 0 and profile=='Curator':
         session['logged_in']=True
         session['useremail'] = aemail
         g.db.close()
-        return render_template('curatoroptions.html',session=session)
+        return render_template('curatoroptions.html',details=details)#removed session=session
 
     else:
         flash('sorry incorrect details !!')
@@ -296,6 +319,19 @@ def submittersuggestions_method():
         flash('OOOPS!!Sorry, you cannot register the same link for the same list again')
         g.db.close()
     return render_template('submitterlinksuggest.html')
+
+@ app.route('/send_mail')
+def sendmail():
+    try:
+        message=Message("Your weekly mail is here !",#subject
+                        sender='anjiekochar@gmail.com',
+                        recipients=['karankochar99@gmail.com'])
+        message.body="lalalaaaaaaaaaaaaaaaaa\nlalallaaaaa"
+        message.html=render_template('subscribe.html')
+        mail.send(message)
+        return 'mail sent'
+    except Exception as e:
+        return str(e)
 
 @app.route('/curatorsendmailfromsuggestions',methods=['get','post'])
 @login_required

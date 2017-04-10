@@ -1,75 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>SUBSCRIPTION</title>
-    <style>
-       .bg-login{ background: #f3f3f3;   margin: 0px;    border: 1px solid #ccc ; padding: 0px !important;}
-       .bg-login header { background: #000;padding: 0px 15px 0px 15px; box-shadow: 0px 2px 1px 1px #c3c3c3;margin-bottom: 0px;}
-       .bg-login header img{ width:154px;padding: 12px 0 0 0; }
-       .bg-login nav{ margin:0px; padding:0px; float:right;}
-       .bg-login nav ul{ margin:0px; padding:0px;}
-       .bg-login nav ul li{ margin:0px; list-style:none; float:left; padding:0px;}
-       .bg-login nav ul li a{ color: #fff; transition: all 0.5s; padding: 30px 40px; display: block; border: 0px;background: none;text-decoration: none;}
-       .bg-login nav ul li a:hover{ background:#fff; color:#000; transition: all 0.5s; }
-       .mail-img{ margin: 0 0 0 20px !important;padding: 0 0 0 0;}
-       .mail-img img{ width: 200px;height: 200px;padding: 0 0 0 0;margin:0 0 0 0;}
-       .bg-login h1{ color:#333333;font-size: 34px;padding: 0 0 0 0;margin:40px 0px 0px 0px;}
-       .bg-login a{color:#3789d0;background: #fff;padding: 7px 10px;border: 1px solid #eaeaea;}
-       .bg-login a span{ padding-right:5px;}
-       .bg-login h2{ color:#505050;font-size: 20px; text-align: left; padding:0;margin:25px 0 25px 0;}
-       .btn-container{ margin:45px 0 15px 0; padding: 0 0 0 0;text-align: center;}
-       .btn-container .btn{ padding: 8px 20px; font-size: 12px; background: #eaaa1a; border: 1px solid #b78515;}
-       .btn-container .btn:hover{ background:#000;}
-       .mail-img form{ padding:0px; margin:0px;}
-       .mail-img .form-group { margin-bottom: 15px;    padding: 0px !important;}
-        </style>
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-            <!-- jQuery library -->
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-            <!-- Latest compiled JavaScript -->
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-    <div class="container bg-login">
-        <header>
-            <div class="row">
-               <div class="col-sm-2">
-                  <img src="static\logo.png" >
-               </div>
-                <div class="col-sm-10">
-                    <nav>
-                        <ul>
-                             <li><a href="javascript:;">Home</a></li>
-                             <li><a href="javascript:;">From Readers</a></li>
-                             <li><a href="javascript:;">Contct Us</a></li>
-                             <li><a href="{{url_for('admin_login')}}"><span class="glyphicon glyphicon-user"></span>Login</a></li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </header>
-            <div class="clearfix"></div>
-            <div align="center">
-                {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                <div class="alert alert-info">
-                    <ul>
-                        {% for message in messages %}
-                        {{message}}<br>
-                        {% endfor %}
-                    </ul>
-                </div>
-                {% endif %}
-                {% endwith %}
-            <div class="welcome"><h1>WELCOME TO THE WEEKLY MAILER</h1></div>
-            </div>
-            <div class="row mail-img">
-                <div class="col-sm-4">
-                    <img src="static\ebook.png">
-                </div>
-
+{% extends 'masteroutlay.html' %}
+            {%block heading %}WELCOME TO THE WEEKLY MAILER{% endblock %}
+            {% block subscribe %}
                     <form action="{{url_for('new_subscription')}}" method="post">
                         <div class="col-sm-8">
                <div class="form-group col-sm-10 pull-left">
@@ -103,9 +34,5 @@
                 </div>
                 </div>
                 <div class="btn-container"><input type="submit" name="submit" value="SUBMIT" class="btn btn-info btn-lg"></div>
-                </form>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
+                    </form>
+          {% endblock %}

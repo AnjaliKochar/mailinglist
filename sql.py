@@ -1,5 +1,4 @@
 import sqlite3
-import  sys
 
 ulist=(('John','john@lrd',233,'Developer','Submitter','abc123'),
        ('Marry','marry@lrd',556,'Content Writer','Subscriber','abc123'),

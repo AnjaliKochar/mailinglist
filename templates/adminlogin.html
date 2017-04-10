@@ -1,39 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>admin login</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-</head>
-<body>
-    <section>
-        <div align="center">
-            <form action="{{url_for('curatororsub_login')}}" method="post">
-                <h1>CURATOR/SUBMITTER LOGIN</h1>
-                &nbsp;&nbsp;Profile:
-                <select style="width:174px;height:21px"  name="cors">
+{% extends 'masteroutlay.html' %}
+    {% block heading %}
+    CURATOR/SUBMITTER LOGIN
+    {% endblock %}
+    {% block login_form %}
+    <form action="{{url_for('curatororsub_login')}}" method="post">
+            <div class="col-sm-8">
+            <div class="clearfix"></div>
+                <div class="form-group col-sm-7 pull-left">
+                    <label> Email:</label>
+                    <input type="email" class="form-control" name="adminemail">
+                    <label>Profile:</label>
+                    <select name="cors" class="form-control">
                     <option value="Curator" >Curator</option>
                     <option value="Submitter">Submitter</option>
-                </select><br><br>
-                Email id:
-                <input type="email" name="adminemail"><br><br>
-                Password:
-                <input type="password" name="adminpswd">
-                <br><br>
-                <button type="button" onclick="history.go(-1)">Back</button>
-                <input type="submit" name="adminsubmit" value="LOGIN">
-            </form>
+                    </select>
+                    <label>Password:</label>
+                    <input type="password" name="adminpswd" class="form-control">
+                </div>
+            </div>
 
+        <div class="btn-container">
+        <button type="button" onclick="history.go(-1)" class="btn btn-info btn-lg">Back</button>
+        <input type="submit" name="adminsubmit" value="Login" class="btn btn-info btn-lg">
         </div>
-    </section>
-
-</body>
-</html>
+    </form>
+    {% endblock %}

@@ -1,16 +1,16 @@
-<!doctype html>
-<html>
-<head>
-       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!--<!doctype html>-->
+<!--<html>-->
+<!--<head>-->
+       <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <!--&lt;!&ndash; jQuery library &ndash;&gt;-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>-->
+    <!--&lt;!&ndash; Latest compiled JavaScript &ndash;&gt;-->
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
 
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-   <body>
+    <!--<link rel="stylesheet" href="{{url_for('static',filename='index.css')}}">-->
+{% extends 'masteroutlay.html %}
+   <div >
 
       <form action = "{{ url_for('login') }}" method = "post">
       USER ID:<input type="email" name="mail"/><br><br>
@@ -23,5 +23,5 @@
 
 
       </form>
-   </body>
+   </div>
 </html>
