@@ -1,2 +1,0 @@
-mailing list
- * info1
