@@ -5,22 +5,34 @@
             {% for item in details %}
                 <div class="form-group">
                     <div class="col-sm-5 pull-left">
+                        {% if item.user_name == 'None' %}
+
                         <label>Name:</label>
-                        <input type="text" id="name" name="name" class="form-control">
+                        <input type="text"  name="name" value="" placeholder="Name" class="form-control">
+                        <label>Email id:</label>
+                        <input type ="email" name="email"  value="" placeholder="abc@lrd" class="form-control">
+                        <label>Contact number:</label>
+                        <input type="number" name="contactnumber"  value="" placeholder="9999999999" class="form-control">
+                        <label>Designation:</label>
+                        <input type="text" name="designation"  value="" placeholder="Designation" class="form-control">
+                        {% else %}
+                        <label>Name:</label>
+                        <input type="text" id="name" name="name" value="{{item.user_name}}" class="form-control">
                         <label>Email id:</label>
                         <input type ="email" id="email" name="email" value="{{item.email}}" class="form-control">
                         <label>Contact number:</label>
-                        <input type="number" id="contactnumber" name="contactnumber" class="form-control">
+                        <input type="number" id="contactnumber" name="contactnumber" value="{{item.phoneno}}" class="form-control">
                         <label>Designation:</label>
-                        <input type="text" id="designation" name="designation" class="form-control">
+                        <input type="text" id="designation" name="designation" value="{{item.company_designation}}" class="form-control">
 
+                        {% endif %}
                         <label>List Role:</label>
                         <div style="margin-bottom: 15px;" >
-                        {% if item.listrole == 'Curator' %}
+                        {% if item.list_role == 'Curator' %}
                         <input type="radio" name="role" value="Subscriber"  >Subscriber
                         <input type="radio" name="role" value="Submitter">Submitter
                         <input type="radio" name="role"  value="Curator" checked >Curator
-                        {% elif item.listrole == 'Submitter'  %}
+                        {% elif item.list_role == 'Submitter'  %}
                         <input type="radio" name="role" value="Subscriber">Subscriber
                         <input type="radio" name="role" value="Submitter" checked>Submitter
                         <input type="radio" name="role" value="Curator">Curator
@@ -30,10 +42,14 @@
                         <input type="radio" name="role" value="Curator">Curator
                         {% endif %}
                         </div>
-
+                        {% if item.user_name == 'None' %}
                         <label>Password:</label>
-                        <input type="password" id="password" name="password" class="form-control">
-                        <input type="hidden" name="userid" value="{{item.userid}}">
+                        <input type="password"  name="password" placeholder="password" class="form-control">
+                        {% else %}
+                        <label>Password:</label>
+                        <input type="password"  name="password" value="{{item.password}}" class="form-control">
+                        {% endif %}
+                        <input type="hidden" name="userid" value="{{item.user_id}}">
                     </div>
                 </div>
             {% endfor %}

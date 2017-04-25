@@ -1,43 +1,34 @@
 <!DOCTYPE html>
+{% extends 'masteroutlay_logout.html' %}
+    {% block heading %}Suggestions for your Lists{% endblock %}
+    {% block suggestions_table %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>View Suggestions</title>
     <style>
-        <!--table,th,td{-->
-        <!--border:1px solid black;-->
-        <!--border-collapse:collapse;-->
-        <!--}-->
-        th,td{
+        th,td
+        {
         padding:15px;
         text-align:left;
         }
-        table tr:nth-child(even) {
+        table tr:nth-child(even)
+        {
         background-color: gainsboro;
+        <!--#000000;-->
         }
-        table tr:nth-child(odd) {
-        background-color: lightsteelblue;
+        table tr:nth-child(odd)
+        {
+        background-color: lightsteelblue ;
+        <!--#f3b01b;-->
         }
-
     </style>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
 </head>
 <body>
-    <section>
-        <div align="right"><a href="{{url_for('logout')}}">Logout</a> </div>
-        <div style="margin-top:3%">
             <form action="{{url_for('send_newsletterfromsuggestions')}}" method="post">
+                <div style="margin-right:20px;">
                 <table  style="width:100%">
-                <caption style="font-size:30px"><b>Suggestions for your Lists</b></caption>
+
                 <tr>
                     <th></th>
                     <th>Suggestion ID</th>
@@ -60,15 +51,16 @@
                 </tr>
                 {% endfor %}
                 </table>
-                <div align="center" style="margin-top:5%">
-                    <button type="button" onclick="history.go(-1)" >Back</button>
-                    <input type="submit" value="Send">
                 </div>
 
+                <div class="clearfix"></div>
+                <div class="btn-container">
+                    <button type="button" onclick="history.go(-1)" class="btn btn-info btn-lg">Back</button>
+                    <button type="submit" class="btn btn-info btn-lg">Send</button>
+                </div>
+
+
             </form>
-
-
-        </div>
-    </section>
-</body>
+    </body>
 </html>
+{% endblock %}

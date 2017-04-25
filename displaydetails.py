@@ -43,7 +43,7 @@ def connect_database():
 def login_required(test):
     @wraps(test)
     def wrap(*args,**kwargs):
-        if 'logged_in' in session:
+        if session['logged_in'] == True :
             print('i m not clearing session')
             return test(*args,**kwargs)
         else:
@@ -59,7 +59,8 @@ def login_required(test):
 def logout():
     # session.pop('logged_in', None)
     # session.pop('useremail',None)
-    session.clear()
+    session['logged_in']=False
+    #session.clear()
     flash('U have been logged out!! ')
     return render_template('Subscribe.html')
 
@@ -222,8 +223,9 @@ def curatororsub_login():
 def assign_newsubmittermethod():
     g.db = connect_database()
     mail = request.form['email'] #cannot use session because updation of another id is done
-    c=g.db.execute('select user_id,list_role from users where email=?',(mail,))
-    details=[dict(userid=row[0],listrole=row[1],email=mail) for row in c.fetchall()]
+    c=g.db.execute('select * from users where email=?',(mail,))
+    details=[dict(user_id=row[0], user_name=row[1], email=row[2], phoneno=row[3], company_designation=row[4],
+                    list_role=row[5], password=row[6]) for row in c.fetchall()]
     g.db.close()
     if len(details)>0:
         return render_template('newsubmitterdisplay.html', details=details)
@@ -245,13 +247,17 @@ def view_suggestions():
 @login_required
 def updatesubmitter_curator():
     g.db=connect_database()
-    mail = request.form['mail']
+    id=request.form['userid']
+    name =request.form['name']
+    mail = request.form['email']
+    phnno=request.form['contactnumber']
+    designation=request.form['designation']
     role = request.form['role']
-    c = g.db.execute('update users set list_role=? where email=?', (role,mail,))
+    password=request.form['password']
+    c = g.db.execute('update users set '
+                     'user_name=?,email=?,phoneno=?,company_designation=?,list_role=?,password=? where user_id=? ',
+                     (name,mail,phnno,designation,role,password,id,))
     g.db.commit()
-    # c = g.db.execute('select * from users')
-    # details = [dict(user_id=row[0],user_name=row[1],email=row[2], phoneno=row[2], company_designation=row[3], list_role=row[4],
-    #                 password=row[5]) for row in c.fetchall()]
     g.db.close()
     flash('RECORDS UPDATED !!')
     return render_template('curatoroptions.html')
@@ -357,6 +363,10 @@ def send_newsletterfromsuggestions():
         #logic to send email to details
     g.db.close()
     return render_template('curatorviewsuggestions.html')
+
+@app.route('/viewsubscribers')
+def view_subscribers():
+    return render_template('lists_types.html')
 
 @app.route('/details')
 def subdetails():

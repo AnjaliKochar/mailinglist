@@ -1,47 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Suggest link</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-</head>
-<body>
-    <section>
-        <div>
-            <div align="center">
-                {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    {{message}}
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-            </div>
+{% extends 'masteroutlay_logout_image.html' %}
+    {% block heading %}Your suggestions are always welcomed{% endblock %}
+    {% block submitter_suggestlink %}
 
             <form action="{{url_for('submittersuggestions_method')}}" method="post" >
-                <div align="right"><a href="{{url_for('logout')}}">Logout</a> </div>
-                <h1 align="center" style="margin-top:5%">Your suggestions are always welcomed </h1>
-                <div style="margin-left:39%">
-                    <div style="float:left">
-                        <label>Title:</label><br><br>
-                        <label>Url:</label><br><br>
-                        <label>List:</label><br><br>
-                        <label>Description:</label><br><br>
-
-                    </div>
-                    <div>
-                        <input type="text" name="title" id="titleid"><br><br>
-                        <input type="url" name="url" id="urlid"><br><br>
-
-                        <select style="height:21px" name="listname">
+                <div class="col-sm-8">
+                    <div class="col-sm-7 form-group pull-left">
+                        <label>Title:</label>
+                        <input type="text" name="title" id="titleid" class="form-control">
+                        <label>Url:</label>
+                        <input type="url" name="url" id="urlid" class="form-control">
+                        <label>List:</label>
+                        <select name="listname" class="form-control">
                             <option>Content writer</option>
                             <option>SEO</option>
                             <option>Developer</option>
@@ -49,19 +18,15 @@
                             <option>UI/UX</option>
                             <option>Database</option>
                             <option>Digital marketing manager</option>
-                        </select><br><br>
-
-                        <textarea rows="4" cols="50" name="description"></textarea><br><br>
+                        </select>
+                        <label>Description:</label>
                         <!--textarea is for multiline input -->
+                        <textarea cols="50" name="description" class="form-control"></textarea>
                     </div>
-                </div>
-                <div style="clear:both;text-align:center">
-                        <button type="button" onclick="history.go(-1)">Back</button>
-                    <input type="submit" value="Send"><br><br>
-                </div>
-
+                    </div>
+                    <div class="btn-container">
+                        <button type="button" onclick="history.go(-1)" class="btn btn-info btn-lg">Back</button>
+                        <input type="submit" value="Send" class="btn btn-info btn-lg">
+                    </div>
             </form>
-        </div>
-    </section>
-</body>
-</html>
+    {% endblock %}
