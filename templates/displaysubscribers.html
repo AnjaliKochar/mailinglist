@@ -1,0 +1,54 @@
+{% extends 'masteroutlay_logout.html' %}
+    {% block heading %}Subscribers{% endblock %}
+    {% block subscribersview %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Suggestions</title>
+    <style>
+        th,td
+        {
+        padding:15px;
+        text-align:left;
+        }
+        table tr:nth-child(even)
+        {
+        background-color: gainsboro;
+        <!--#000000;-->
+        }
+        table tr:nth-child(odd)
+        {
+        background-color: lightsteelblue ;
+        <!--#f3b01b;-->
+        }
+    </style>
+</head>
+<body>
+            <form action="" method="post">
+                <div style="margin-right:20px;">
+                <table  style="width:100%">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>List Role</th>
+                </tr>
+                {% for item in details %}
+                    <tr>
+                        <td>{{item.user_name}}</td>
+                        <td>{{item.email}}
+                        <td>{{item.list_role}}</td>
+                    </tr>
+                {% endfor %}
+                </table>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="btn-container">
+                    <button type="button" onclick="history.go(-1)" class="btn btn-info btn-lg">Back</button>
+                    <!--<button type="button" onclick="" class="btn btn-info btn-lg">Ok</button>-->
+                </div>
+
+            </form>
+</body>
+</html>
+{% endblock %}
